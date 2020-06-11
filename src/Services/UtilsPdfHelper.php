@@ -96,22 +96,22 @@ class UtilsPdfHelper
                 Admission Fee - Immediate
             </td>
             <td align="right" style="padding: 5px; border-top: 1px solid black; border-right: 1px solid black;">
-                INSTALLMENT[0].TUTION_FEE
+                {{INSTALLMENT[0].TUTION_FEE}}
             </td>
             <td align="right" style="padding: 5px; border-top: 1px solid black; border-right: 1px solid black;">
-                INSTALLMENT[0].TOTAL_FEE
+                {{INSTALLMENT[0].TOTAL_FEE}}
             </td>
         </tr>
          <tr>
             <td align="center" style="padding: 5px; border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">II</td>
             <td style="padding: 5px; border-top: 1px solid black; border-right: 1px solid black;">
-                Before INSTALLMENT[1].DUE_DATE
+                Before {{INSTALLMENT[1].DUE_DATE}}
             </td>
             <td align="right" style="padding: 5px; border-top: 1px solid black; border-right: 1px solid black;">
-                INSTALLMENT[1].TUTION_FEE
+                {{INSTALLMENT[1].TUTION_FEE}}
             </td>
             <td align="right" style="padding: 5px; border-top: 1px solid black; border-right: 1px solid black;">
-                INSTALLMENT[1].TOTAL_FEE
+                {{INSTALLMENT[1].TOTAL_FEE}}
             </td>
         </tr>';
     }
