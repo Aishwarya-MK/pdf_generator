@@ -4,8 +4,10 @@ sonata_admin:
         blocks:
             - { type: sonata.admin.block.admin_list, position: left,class: col-md-6 }
     options:
+        use_icheck: false
         legacy_twig_text_extension: false
-
+    templates:
+        edit: 'template/edit.html.twig'
 
 
 sonata_block:

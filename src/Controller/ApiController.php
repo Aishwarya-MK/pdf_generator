@@ -67,7 +67,4 @@ class ApiController extends AbstractController
             return UtilsGeneralHelper::getErrorMessage(Response::HTTP_NOT_FOUND, $e->getMessage());
         }
     }
-
-
-
 }

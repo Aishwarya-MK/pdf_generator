@@ -36,7 +36,7 @@ class Template
     private $content;
 
     /**
-     * @ORM\Column(type="string",length=255, nullable=true, options={"comment":"List separated with ','"})
+     * @ORM\Column(type="text", nullable=true, options={"comment":"List separated with ','"})
      */
     private $modifiers;
 
@@ -51,7 +51,7 @@ class Template
     private $createdAt;
 
     /**
-     * @ORM\Column(name ="updated_at", type="date")
+     * @ORM\Column(name ="updated_at", type="datetime")
      */
     private $updatedAt;
 
