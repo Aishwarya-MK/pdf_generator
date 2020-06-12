@@ -24,11 +24,12 @@ MYSQL 5.7.24
 * run a command to update the css and js files
     php bin/console assets:install
 * Create a folder pdf  under public/ if not exist
-* create a file called "deletefile.log" under var/log/
-    
+* create a file called "deletefile.log" under var/log/    
 * command to set cron
     php bin/console app:dlete-pdf
-#Required symfony bundles
+    
+    
+#Required main symfony bundles
 
 1. sonata-project/admin-bundle
 2. dompdf/dompdf
