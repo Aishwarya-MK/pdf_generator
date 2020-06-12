@@ -44,6 +44,10 @@ class UtilsPdfHelper
 
         $pdfFileName = $template->getName().rand(100,10000).".pdf";//student name_application no
         $directory = $directory."pdf".date("Y_m_d");
+        $modifiers = json_decode($modifiers);
+        $modifiers = (array)$modifiers;
+        if (!is_dir($directory))
+            mkdir($directory);
         if($template instanceof Template){
             $pdfData= self::getPdfData($template->getContent(),$modifiers);
             // Configure Dompdf according to your needs
@@ -55,14 +59,11 @@ class UtilsPdfHelper
             $dompdf->render();// important function
             file_put_contents($directory."\\".$pdfFileName,$dompdf->output());//important function
             return urlencode($url.'/pdf/pdf'.date("Y_m_d").'/'.$pdfFileName);
-
         }
         return null;
     }
 
     public function getPdfData($content, $modifiers){
-       $modifiers = json_decode($modifiers);
-        $modifiers = (array)$modifiers;
         $instalmentData = self::getInstallmentDetails($modifiers);
         $content = str_replace('{{INSTALLMENT_DETAILS}}', $instalmentData, $content);
         unset($modifiers['INSTALLMENT_OBJECT']);
@@ -159,6 +160,25 @@ class UtilsPdfHelper
             $n = $n % $value;
         }
         return $result;
+    }
+
+    public static function deleteDirctory($dirPath){
+        if (is_dir($dirPath)) {
+            $objects = scandir($dirPath);
+            foreach ($objects as $object) {
+                if ($object != "." && $object !="..") {
+                    if (filetype($dirPath . DIRECTORY_SEPARATOR . $object) == "dir") {
+                        self::deleteDirctory($dirPath . DIRECTORY_SEPARATOR . $object);
+                    } else {
+                        unlink($dirPath . DIRECTORY_SEPARATOR . $object);
+                    }
+                }
+            }
+            reset($objects);
+            rmdir($dirPath);
+            return 1;
+        }
+        return 0;
     }
 
 

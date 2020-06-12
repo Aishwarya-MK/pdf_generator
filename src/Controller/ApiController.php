@@ -48,7 +48,8 @@ class ApiController extends AbstractController
      */
     public function generatePDF(Request $Request)
     {
-        $directory = $this->getParameter('public_directory').Template::PDFSTORAGE;
+        $directory = $this->getParameter('public_directory');
+        $directory .= DIRECTORY_SEPARATOR.Template::PDFSTORAGE.DIRECTORY_SEPARATOR;
         $url = $Request->getSchemeAndHttpHost();
         $data= $Request->request->all();
         try{

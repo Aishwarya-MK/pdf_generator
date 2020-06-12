@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Template
 {
 
-    const PDFSTORAGE = "\pdf\\";
+    const PDFSTORAGE = "pdf";
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
