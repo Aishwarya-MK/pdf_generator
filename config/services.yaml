@@ -6,7 +6,7 @@
 parameters:
     locale: 'en'
     public_directory: '%kernel.project_dir%\public'
-
+    project_directory: '%kernel.project_dir%'
 services:
     # default configuration for services in *this* file
     _defaults:

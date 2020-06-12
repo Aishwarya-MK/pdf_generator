@@ -39,24 +39,26 @@ class DeletePdfCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        //deleting the pdf
+        $file = $this->param->get('project_directory'). DIRECTORY_SEPARATOR. "var". DIRECTORY_SEPARATOR."log".DIRECTORY_SEPARATOR."deletefile.log";
+        $fileHandler = fopen($file,'a');
+        $directory = $this->param->get('public_directory') . DIRECTORY_SEPARATOR . Template::PDFSTORAGE . DIRECTORY_SEPARATOR;
+        //remove 2day's old directory
+        $rmdir = Template::PDFSTORAGE . date("Y_m_d", strtotime('-2 days'));
+        fputs($fileHandler,date("y-m-d")." : started deleting the directory -".$rmdir."\n");
         try {
-            $directory = $this->param->get('public_directory') . DIRECTORY_SEPARATOR . Template::PDFSTORAGE . DIRECTORY_SEPARATOR;
-            $output->writeln($directory);
-            //get 2days before date
-            $rmdir = Template::PDFSTORAGE . date("Y_m_d", strtotime('-2 days'));
             $output->writeln($directory . $rmdir);
             $status = UtilsPdfHelper::deleteDirctory($directory . $rmdir);
             if ($status)
-               $output->writeln($rmdir . " deleted successfully");
+                fputs($fileHandler, $rmdir . " deleted successfully\n");
             else
-                $output->writeln( " not exist");
+                fputs($fileHandler, $rmdir . " not exist\n");
         }
         catch (\Exception $exception){
+            fputs($fileHandler, $exception->getMessage()."\n");
             $output->writeln($exception->getMessage());
         }
+        fclose($fileHandler);
         die(1);
-
     }
 
 }
