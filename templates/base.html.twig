@@ -1,12 +1,98 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <style>
+            header {
+                text-align: center;
+                margin: 0px;
+                background-color: #374850;
+                border: 1px solid transparent;
+                color: white;
+                top:0;
+                font-size: 30px;
+                height: 60px;
+                width: 100%;
+                padding-top: 20px;
+            }
+            footer {
+                position: fixed;
+                left: 0;
+                bottom: 0;
+                height: 40px;
+                width: 100%;
+                background-color: #374850;
+                border: 1px solid transparent;
+                color: white;
+                text-align: center;
+            }
+            body{
+
+                height: 100%;
+            }
+            .login{
+
+                padding-top: 20px;
+                padding-left: 5%;
+            }
+            .logout{
+                float:right;
+                margin-right: 15px;
+            }
+            .btn{
+                display: inline-block;
+                padding: 6px 12px;
+                margin-bottom: 0;
+                font-size: 14px;
+                font-weight: 400;
+                line-height: 1.42857143;
+                text-align: center;
+                white-space: nowrap;
+                vertical-align: middle;
+                -ms-touch-action: manipulation;
+                touch-action: manipulation;
+                cursor: pointer;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+                background-image: none;
+                border: 1px solid transparent;
+                border-radius: 4px;
+                -webkit-box-shadow: none;
+                box-shadow: none;
+            }
+            .btn-login{
+                background-color: #00a65a;
+                border-color: #008d4c;
+            }
+            .btn-logout{
+                background-color: #FF0000;
+                border-color: #d40505;
+                color: #ffffff;
+            }
+        </style>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
     </head>
+    <header>
+        <div class="display:inline">
+        PDF Generator
+        {% if app.user %}
+            <a href="{{ path('admin_logout') }}">
+                <button class="logout btn btn-lg btn-primary btn-logout">
+                    Logout
+                </button>
+            </a>
+        {% endif %}
+        </div>
+
+    </header>
     <body>
+
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
     </body>
+    <footer>
+    </footer>
 </html>

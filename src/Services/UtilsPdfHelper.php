@@ -42,20 +42,26 @@ class UtilsPdfHelper
      */
     public static  function  pdfRequestProcess($template,$modifiers,$directory,$url){
 
-        $pdfFileName = $template->getName().rand(100,10000).".pdf";//student name_application no
         $directory = $directory."pdf".date("Y_m_d");
         $modifiers = json_decode($modifiers);
         $modifiers = (array)$modifiers;
+        $name = $modifiers["STUDENT_NAME"]?str_replace(" ","",$modifiers["STUDENT_NAME"]): $template->getName();
+        $applicationId = $modifiers["APPLICATION_NO"]? $modifiers["APPLICATION_NO"]: rand(100,10000);
+        $pdfFileName =  $name."_".$applicationId.".pdf";//student name_application no
         if (!is_dir($directory))
             mkdir($directory);
         if($template instanceof Template){
             $pdfData= self::getPdfData($template->getContent(),$modifiers);
+
+            $orientation = Template::PDF_PORTRAIT_VALUE;
+            if($template->getType() == Template::PDF_LANDSCAPE)
+                $orientation = Template::PDF_LANDSCAPE_VALUE;
             // Configure Dompdf according to your needs
             $pdfOptions = new Options();
             $pdfOptions->set('isHtml5ParserEnabled', true);
             $dompdf = new Dompdf($pdfOptions);
             $dompdf->loadHtml($pdfData);
-            $dompdf->setPaper('A4', 'landscape');
+            $dompdf->setPaper('A4', $orientation);
             $dompdf->render();// important function
             file_put_contents($directory."\\".$pdfFileName,$dompdf->output());//important function
             return urlencode($url.'/pdf/pdf'.date("Y_m_d").'/'.$pdfFileName);
@@ -75,7 +81,11 @@ class UtilsPdfHelper
         return $content;
     }
 
-    public static function previewPdf($content){
+    public static function previewPdf($content,$type){
+
+        $orientation = Template::PDF_PORTRAIT_VALUE;
+        if($type == Template::PDF_LANDSCAPE)
+            $orientation = Template::PDF_LANDSCAPE_VALUE;
         // Configure Dompdf according to your needs
         $instalmentData = self::previewInstalment();
         $content = str_replace('{{INSTALLMENT_DETAILS}}', $instalmentData, $content);
@@ -83,7 +93,7 @@ class UtilsPdfHelper
         $pdfOptions->set('isHtml5ParserEnabled', true);
         $dompdf = new Dompdf($pdfOptions);
         $dompdf->loadHtml($content);
-        $dompdf->setPaper('A4', 'landscape');
+        $dompdf->setPaper('A4', $orientation);//landscape other option
         $dompdf->render();// important function
         $dompdf->stream("previewpdf.pdf", [
             "Attachment" => false
@@ -180,6 +190,5 @@ class UtilsPdfHelper
         }
         return 0;
     }
-
 
 }

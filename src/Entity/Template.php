@@ -12,6 +12,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Template
 {
 
+    const PDF_PORTRAIT =0;
+    const PDF_LANDSCAPE =1;
+     const PDF_PORTRAIT_VALUE = "portrait";
+    const PDF_LANDSCAPE_VALUE = "landscape";
+
     const PDFSTORAGE = "pdf";
     /**
      * @ORM\Id()
@@ -54,6 +59,11 @@ class Template
      * @ORM\Column(name ="updated_at", type="datetime")
      */
     private $updatedAt;
+
+    /**
+     * @ORM\Column(type="boolean", length=30, nullable=true,options={"default" : 0})
+     */
+    private $type;
 
     public function getId(): ?int
     {
@@ -149,6 +159,18 @@ class Template
     public function onPreUpdate()
     {
         $this->updatedAt = new \DateTime("now");
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(?string $type): self
+    {
+        $this->type = $type;
+
+        return $this;
     }
 
 }

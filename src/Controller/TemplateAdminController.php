@@ -80,7 +80,7 @@ class TemplateAdminController extends CRUDController
             } elseif ($this->isPreviewRequested()) {
                 $previewObj = $form->getData();
                 if($previewObj instanceof Template)
-                    UtilsPdfHelper::previewPdf($previewObj->getContent());
+                    UtilsPdfHelper::previewPdf($previewObj->getContent(),$previewObj->getType());
                 else
                     $this->addFlash('sonata_flash_error', "Something went wrong to create PDF");
             }
@@ -172,7 +172,7 @@ class TemplateAdminController extends CRUDController
             } elseif ($this->isPreviewRequested()) {
                 $previewObj = $form->getData();
                 if($previewObj instanceof Template)
-                    UtilsPdfHelper::previewPdf($previewObj->getContent());
+                    UtilsPdfHelper::previewPdf($previewObj->getContent(), $previewObj->getType());
                 else
                     $this->addFlash('sonata_flash_error', "Something went wrong to create PDF");
             }

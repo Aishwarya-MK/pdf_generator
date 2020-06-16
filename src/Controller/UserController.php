@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+use App\Services\UtilsGeneralHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -23,7 +26,6 @@ class UserController extends AbstractController
             return UtilsGeneralHelper::getErrorMessage(Response::HTTP_BAD_REQUEST, "Bad Request, Kindly Contact the Admin");
         $user = new User($username);
         $user->setPassword($encoder->encodePassword($user, $password));
-        //dump($user);die;
         $errors =$validator->validate($user);
         if(count($errors) > 0){
             return UtilsGeneralHelper::getErrorMessage(Response::HTTP_PARTIAL_CONTENT, UtilsGeneralHelper::getValidationMessage($errors));

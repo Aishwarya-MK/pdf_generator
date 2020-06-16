@@ -17,6 +17,8 @@ use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\RadioType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
@@ -28,13 +30,16 @@ class TemplateAdmin extends AbstractAdmin
     {
         $formMapper
             ->add('name', TextType::class,
-                array("label"=>"Template Name", 'attr' => ['maxlength' => 30]))
+                array("label"=>"Template Name", 'attr' => ['maxlength' => 30, 'style' => 'width:50%']))
             ->add('modifiers', TextareaType::class,
-                array("label"=>"Modifiers", "required"=>false, 'attr' => ['placeholder'=> 'ex: NAME,EMAIL','readonly' => 'readonly']))
+                array("label"=>"Modifiers", "required"=>false, 'attr' => ['placeholder'=> 'ex: NAME,EMAIL']))
             ->add('content', TextareaType::class,
                 array("label"=>"PdF Content", "required"=>false, 'attr' => ['class' => 'tinymce','placeholder'=> 'HTML format']))
             ->add('isActive', CheckboxType::class,
-            array("label"=>"Enable","required"=>false))
+            array("label"=>"Enable","required"=>false,'attr' => ['style' => 'margin-left: 55px;']))
+            ->add('type', ChoiceType::class,
+                array("label"=>"Pdf orientation type",  "required"=>false,'attr' => ['style' => 'width:130px'],
+                    'choices' => ["portrait"=>false,"landscape"=>true ],'placeholder' => false))
             ->end();
     }
 

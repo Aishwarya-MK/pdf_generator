@@ -26,7 +26,6 @@ class UtilsGeneralHelper
 
     public static function getErrorMessage($statusCode, $message)
     {
-        dump("ghjk");
         $response = new Response();
         $response->setContent($message);
         $response->setStatusCode($statusCode);

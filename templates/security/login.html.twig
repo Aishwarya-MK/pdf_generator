@@ -3,30 +3,24 @@
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
-<form action="{{ path("admin_login") }}" method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
-
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.username }}, <a href="{{ path('admin_logout') }}">Logout</a>
-        </div>
-    {% endif %}
-
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputUsername">Username</label>
-    <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" required autofocus>
-    <br/>
-    <br/>
-    <label for="inputPassword">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" required>
-    <br/>
-    <br/>
-    <input type="hidden" name="_csrf_token"  value="{{ csrf_token('authenticate') }}"
-    >
-    <button class="btn btn-lg btn-primary" type="submit">
-        Sign in
-    </button>
-</form>
+    <div class="login">
+        <form action="{{ path("admin_login") }}" method="post">
+            {% if error %}
+                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+            <h1 class="h3 mb-3 font-weight-normal">Sign in</h1>
+            <label for="inputUsername">Username : </label>
+            <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" required autofocus>
+            <br/>
+            <br/>
+            <label for="inputPassword">Password : </label>
+            <input type="password" name="password" id="inputPassword" class="form-control" required>
+            <br/>
+            <br/>
+            <input type="hidden" name="_csrf_token"  value="{{ csrf_token('authenticate') }}">
+            <div style="margin-top: 20px">
+                <button class="btn btn-lg btn-primary btn-login" type="submit">Sign in</button>
+            </div>
+        </form>
+    </div>
 {% endblock %}

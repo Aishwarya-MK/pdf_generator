@@ -11,6 +11,11 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\HasLifecycleCallbacks
+ *  @UniqueEntity(
+ *     fields={"username"},
+ *     errorPath="username",
+ *     message="This user is already exist."
+ * )
  */
 class User implements UserInterface
 {
