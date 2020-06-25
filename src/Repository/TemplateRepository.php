@@ -19,32 +19,21 @@ class TemplateRepository extends ServiceEntityRepository
         parent::__construct($registry, Template::class);
     }
 
-    // /**
-    //  * @return Template[] Returns an array of Template objects
-    //  */
-    /*
-    public function findByExampleField($value)
+     /**
+      * @return Template[]
+      */
+
+    public function getActiveTemplateList($status = Template::IS_ACTIVE)
     {
         return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
+            ->select('t.id,t.name')
+            ->andWhere('t.isActive = :val')
+            ->setParameter('val', $status)
             ->orderBy('t.id', 'ASC')
-            ->setMaxResults(10)
             ->getQuery()
             ->getResult()
         ;
-    }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Template
-    {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
     }
-    */
+
 }

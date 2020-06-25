@@ -68,4 +68,21 @@ class ApiController extends AbstractController
             return UtilsGeneralHelper::getErrorMessage(Response::HTTP_NOT_FOUND, $e->getMessage());
         }
     }
+
+    /**
+     * @Route("/api/template/list", name="pdf_template_list")
+     * get active template list
+     */
+    public function getTemplateList()
+    {
+        try{
+            $templatList= array();
+            $em = $this->getDoctrine()->getManager();
+            $templatList= $em->getRepository(Template::class)->getActiveTemplateList(Template::IS_ACTIVE);
+            return UtilsGeneralHelper::getReturnMessage( Response::HTTP_ACCEPTED, $templatList);
+        }
+        catch (\Exception $e) {
+            return UtilsGeneralHelper::getErrorMessage(Response::HTTP_NOT_FOUND, $e->getMessage());
+        }
+    }
 }

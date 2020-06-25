@@ -12,9 +12,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Template
 {
 
+    const IS_ACTIVE =1;
+    const IS_INACTIVE =0;
     const PDF_PORTRAIT =0;
     const PDF_LANDSCAPE =1;
-     const PDF_PORTRAIT_VALUE = "portrait";
+    const PDF_PORTRAIT_VALUE = "portrait";
     const PDF_LANDSCAPE_VALUE = "landscape";
 
     const PDFSTORAGE = "pdf";
