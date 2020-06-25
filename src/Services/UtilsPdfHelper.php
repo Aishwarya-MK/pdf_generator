@@ -63,7 +63,7 @@ class UtilsPdfHelper
             $dompdf->loadHtml($pdfData);
             $dompdf->setPaper('A4', $orientation);
             $dompdf->render();// important function
-            file_put_contents($directory."\\".$pdfFileName,$dompdf->output());//important function
+            file_put_contents($directory.DIRECTORY_SEPARATOR.$pdfFileName,$dompdf->output());//important function
             return urlencode($url.'/pdf/pdf'.date("Y_m_d").'/'.$pdfFileName);
         }
         return null;
