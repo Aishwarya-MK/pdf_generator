@@ -1,5 +1,6 @@
 sonata_admin:
     title: 'PDF Generator'
+    title_logo: '/images/ja_logo.jpg'
     dashboard:
         blocks:
             - { type: sonata.admin.block.admin_list, position: left,class: col-md-6 }
