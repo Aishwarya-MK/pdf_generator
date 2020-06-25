@@ -53,7 +53,7 @@ class TemplateAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper->addIdentifier('name');
-        $listMapper->addIdentifier('modifiers');
+        //$listMapper->addIdentifier('modifiers');
         $listMapper->addIdentifier('isActive');
         $listMapper->addIdentifier('createdAt');
     }
