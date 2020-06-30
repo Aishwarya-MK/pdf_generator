@@ -69,6 +69,36 @@ class UtilsPdfHelper
         return null;
     }
 
+    /*
+     * creating the prview pdf under /pdf/preview
+     * return web file path
+     */
+    public static  function previewPdfRequestProcess($template,$directory,$url){
+
+        $directory = $directory."preview";
+        if (!is_dir($directory))
+            mkdir($directory);
+        if($template instanceof Template){
+            $pdfFileName =trim($template->getName())."-".$template->getId().".pdf";
+            $pdfData= $template->getContent();
+            $instalmentData = self::previewInstalment();
+            $pdfData = str_replace('{{INSTALLMENT_DETAILS}}', $instalmentData, $pdfData);
+            $orientation = Template::PDF_PORTRAIT_VALUE;
+            if($template->getType() == Template::PDF_LANDSCAPE)
+                $orientation = Template::PDF_LANDSCAPE_VALUE;
+            // Configure Dompdf according to your needs
+            $pdfOptions = new Options();
+            $pdfOptions->set('isHtml5ParserEnabled', true);
+            $dompdf = new Dompdf($pdfOptions);
+            $dompdf->loadHtml($pdfData);
+            $dompdf->setPaper('A4', $orientation);
+            $dompdf->render();// important function
+            file_put_contents($directory.DIRECTORY_SEPARATOR.$pdfFileName,$dompdf->output());//important function
+            return true;
+        }
+        return null;
+    }
+
     public function getPdfData($content, $modifiers){
         $instalmentData = self::getInstallmentDetails($modifiers);
         $content = str_replace('{{INSTALLMENT_DETAILS}}', $instalmentData, $content);
@@ -81,6 +111,11 @@ class UtilsPdfHelper
         return $content;
     }
 
+    /**
+     * @param $content
+     * @param $type
+     * its to preview the pdf template in front end dashboard
+     */
     public static function previewPdf($content,$type){
 
         $orientation = Template::PDF_PORTRAIT_VALUE;
@@ -95,7 +130,7 @@ class UtilsPdfHelper
         $dompdf->loadHtml($content);
         $dompdf->setPaper('A4', $orientation);//landscape other option
         $dompdf->render();// important function
-        $dompdf->stream("previewpdf.pdf", [
+        $dompdf->stream("preview.pdf", [
             "Attachment" => false
         ]);
     }
@@ -172,13 +207,13 @@ class UtilsPdfHelper
         return $result;
     }
 
-    public static function deleteDirctory($dirPath){
+    public static function  deleteDirectory($dirPath){
         if (is_dir($dirPath)) {
             $objects = scandir($dirPath);
             foreach ($objects as $object) {
                 if ($object != "." && $object !="..") {
                     if (filetype($dirPath . DIRECTORY_SEPARATOR . $object) == "dir") {
-                        self::deleteDirctory($dirPath . DIRECTORY_SEPARATOR . $object);
+                        self::deleteDirectory($dirPath . DIRECTORY_SEPARATOR . $object);
                     } else {
                         unlink($dirPath . DIRECTORY_SEPARATOR . $object);
                     }

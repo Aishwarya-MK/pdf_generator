@@ -56,7 +56,7 @@ class ApiController extends AbstractController
             $validMessage = UtilsPdfHelper::pdfRequestValidation($data);
             if($validMessage != null)
                 return UtilsGeneralHelper::getErrorMessage(Response::HTTP_PARTIAL_CONTENT, $validMessage);
-            $template = $this->getDoctrine()->getRepository(Template::class)->findOneBy(['name' => $data["template"]]);
+            $template = $this->getDoctrine()->getRepository(Template::class)->findOneBy(['id' => $data["template"]]);
             if(empty($template))
                 return UtilsGeneralHelper::getErrorMessage(Response::HTTP_PARTIAL_CONTENT, "Template not found");
             $response = UtilsPdfHelper::pdfRequestProcess($template,$data["modifiers"],$directory,$url);
@@ -70,16 +70,37 @@ class ApiController extends AbstractController
     }
 
     /**
-     * @Route("/api/template/list", name="pdf_template_list")
+     * @Route("/api/pdf_list", name="pdf_template_list")
      * get active template list
      */
     public function getTemplateList()
     {
         try{
-            $templatList= array();
+            $templateList= array();
             $em = $this->getDoctrine()->getManager();
-            $templatList= $em->getRepository(Template::class)->getActiveTemplateList(Template::IS_ACTIVE);
-            return UtilsGeneralHelper::getReturnMessage( Response::HTTP_ACCEPTED, $templatList);
+            $templateList= $em->getRepository(Template::class)->getActiveTemplateList(Template::IS_ACTIVE);
+            return UtilsGeneralHelper::getReturnMessage( Response::HTTP_ACCEPTED, $templateList);
+        }
+        catch (\Exception $e) {
+            return UtilsGeneralHelper::getErrorMessage(Response::HTTP_NOT_FOUND, $e->getMessage());
+        }
+    }
+
+    /**
+     * @Route("/api/preview_pdf/{id}", name="preview_pdf")
+     * get pdf preview url
+     */
+    public function getPreviewPDFTemplate($id, Request $request)
+    {
+        try{
+            $em = $this->getDoctrine()->getManager();
+            $url = $request->getSchemeAndHttpHost();
+            $template= $em->getRepository(Template::class)->findOneBy(['id'=> $id]);
+            if(empty($template))
+                return UtilsGeneralHelper::getErrorMessage(Response::HTTP_PARTIAL_CONTENT, "Template not found");
+            $fileName = trim($template->getName())."-".$template->getId().".pdf";
+            $url = urlencode($url.'/pdf/preview'.'/'.$fileName);
+            return UtilsGeneralHelper::getReturnMessage( Response::HTTP_ACCEPTED, $url);
         }
         catch (\Exception $e) {
             return UtilsGeneralHelper::getErrorMessage(Response::HTTP_NOT_FOUND, $e->getMessage());

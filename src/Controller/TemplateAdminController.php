@@ -64,6 +64,10 @@ class TemplateAdminController extends CRUDController
                         $this->addFlash('sonata_flash_error', "Template name is already exist cannot use again");
                     } else {
                         $newObject = $this->admin->create($submittedObject);
+                        $directory = $this->getParameter('project_directory'). DIRECTORY_SEPARATOR.'public';
+                        $directory .= DIRECTORY_SEPARATOR.Template::PDFSTORAGE.DIRECTORY_SEPARATOR;
+                        $url = $request->getSchemeAndHttpHost();
+                        UtilsPdfHelper::previewPdfRequestProcess($newObject,$directory,$url);
                         $this->addFlash('sonata_flash_success', "template created successfully");
                         return $this->redirectTo($newObject);
                     }
@@ -150,6 +154,10 @@ class TemplateAdminController extends CRUDController
                     }else{
                         try {
                             $existingObject = $this->admin->update($submittedObject);
+                            $directory = $this->getParameter('project_directory'). DIRECTORY_SEPARATOR.'public';
+                            $directory .= DIRECTORY_SEPARATOR.Template::PDFSTORAGE.DIRECTORY_SEPARATOR;
+                            $url = $request->getSchemeAndHttpHost();
+                            UtilsPdfHelper::previewPdfRequestProcess($existingObject,$directory,$url);
                             if ($this->isXmlHttpRequest())
                                 return $this->handleXmlHttpRequestSuccessResponse($request, $existingObject);
                             $this->addFlash('sonata_flash_success', "template updated succes");

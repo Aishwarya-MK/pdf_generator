@@ -47,7 +47,7 @@ class DeletePdfCommand extends Command
         fputs($fileHandler,date("y-m-d")." : started deleting the directory -".$rmdir."\n");
         try {
             $output->writeln($directory . $rmdir);
-            $status = UtilsPdfHelper::deleteDirctory($directory . $rmdir);
+            $status = UtilsPdfHelper::deleteDirectory($directory . $rmdir);
             if ($status)
                 fputs($fileHandler, $rmdir . " deleted successfully\n");
             else
